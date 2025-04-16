@@ -1,16 +1,9 @@
-from flask import Flask
-import threading
+from keepalive import keep_alive
 import os
 
-app = Flask('')
-
-@app.route('/')
-def home():
-    return 'Bot is running!'
-
+# Function to run Flask app
 def run():
-    app.run(host="0.0.0.0", port=8080)
+    os.system("python app.py")  # Run the main Flask app
 
-def keep_alive():
-    t = threading.Thread(target=run)
-    t.start()
+# Keep the server alive
+keep_alive(run)
