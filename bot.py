@@ -5,7 +5,7 @@ from discord import app_commands
 import logging
 from utils.logger import setup_logger
 from utils.config import load_config
-from keepalive import keep_alive  # Import keep_alive function
+from app import app  # Import app function
 
 # Setup logging
 logger = setup_logger()
@@ -84,7 +84,7 @@ def main():
         logger.error('No token found in environment variables')
         return
 
-    keep_alive()  # Call keep_alive function here
+    app()  # Call keep_alive function here
     bot = DiscordBot()
     bot.run(token)
 
