@@ -24,7 +24,7 @@ class DiscordBot(commands.Bot):
 
     async def setup_hook(self):
         # Load all cogs
-        for filename in os.listdir('./cogs'):
+        for filename in os.listdir('./commands'):
             if filename.endswith('.py'):
                 try:
                     await self.load_extension(f'cogs.{filename[:-3]}')
