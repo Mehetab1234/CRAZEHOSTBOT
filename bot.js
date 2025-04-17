@@ -1,43 +1,46 @@
-require('dotenv').config();
-
-const { Client, Collection, GatewayIntentBits } = require('discord.js');
+const { Client, GatewayIntentBits } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
+require('dotenv').config();
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
-client.commands = new Collection();
+const client = new Client({
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent],
+});
 
-// Load commands
+client.commands = new Map();
+
+// Load commands from the 'commands' folder
 const commandsPath = path.join(__dirname, 'commands');
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
   const command = require(path.join(commandsPath, file));
-  client.commands.set(command.data.name, command);
+  client.commands.set(command.name, command);
 }
 
-// Bot ready
+// When the bot is ready
 client.once('ready', () => {
   console.log(`Logged in as ${client.user.tag}`);
 });
 
-// Handle interactions
-client.on('interactionCreate', async interaction => {
-  if (!interaction.isCommand()) return;
+// Listen for messages and handle commands
+client.on('messageCreate', (message) => {
+  if (!message.content.startsWith('!') || message.author.bot) return;
 
-  const command = client.commands.get(interaction.commandName);
+  const args = message.content.slice(1).trim().split(/ +/);
+  const commandName = args.shift().toLowerCase();
+
+  const command = client.commands.get(commandName);
+
   if (!command) return;
 
   try {
-    await command.execute(interaction);
+    command.execute(message, args);
   } catch (error) {
     console.error(error);
-    await interaction.reply({ content: 'Error executing command!', ephemeral: true });
+    message.reply('There was an error executing that command!');
   }
 });
 
-// Login with token from .env
+// Log the bot in using the token from environment variables
 client.login(process.env.DISCORD_TOKEN);
-
-// Start web server
-require('./web/index.js');
