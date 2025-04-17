@@ -1,0 +1,64 @@
+/* Basic Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Fullscreen container */
+body, html {
+  height: 100%;
+  width: 100%;
+  font-family: Arial, sans-serif;
+  margin: 0;
+}
+
+/* Background animation */
+body {
+  background: linear-gradient(45deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5));
+  background-size: 400% 400%;
+  animation: gradientBackground 10s ease infinite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Green text style */
+.green-text {
+  font-size: 50px;
+  font-weight: bold;
+  color: #00ff00;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+  animation: textGlow 1.5s ease-in-out infinite alternate;
+}
+
+#discord-status {
+  margin-top: 20px;
+  font-size: 20px;
+  color: #fff;
+}
+
+/* Animated Gradient Background */
+@keyframes gradientBackground {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Text Glow Animation */
+@keyframes textGlow {
+  0% {
+    text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
+  }
+  100% {
+    text-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00, 0 0 50px #00ff00;
+  }
+}
